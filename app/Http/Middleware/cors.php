@@ -11,10 +11,24 @@ class Cors
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * Middleware ini mengizinkan request dari domain lain (Cross-Origin)
      */
     public function handle(Request $request, Closure $next): Response
     {
-        return $next($request);
+        // Jika preflight request (OPTIONS)
+        if ($request->getMethod() === "OPTIONS") {
+            return response('', 200)
+                ->header('Access-Control-Allow-Origin', '*')
+                ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+                ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+        }
+
+        $response = $next($request);
+
+        // Tambahkan CORS headers ke semua response
+        return $response
+            ->header('Access-Control-Allow-Origin', '*')
+            ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+            ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
     }
 }
