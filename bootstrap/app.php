@@ -15,9 +15,9 @@ return Application::configure(basePath: dirname(__DIR__))
         // ==========================================
         // VERSI 1: DENGAN CORS (Uncomment ini)
         // ==========================================
-        $middleware->api(append: [
-            \App\Http\Middleware\Cors::class,
-        ]);
+        // $middleware->api(append: [
+        //     \App\Http\Middleware\Cors::class,
+        // ]);
 
         // ==========================================
         // VERSI 2: TANPA CORS (Comment/hapus baris di atas)
